@@ -2,13 +2,217 @@
     margin: 0;
     padding: 0;
     box-sizing: content-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.container{
+    display: flex;
+}
+
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 10%;
+    background-color: #49B1FC;
+    float: left;
+    position: fixed;
+}
+
+.sidebar a{
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 16px;
+}
+
+.page{
+    float: left;
+    margin-left: 15%;
+}
+
+.propiedades{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 85vw;
+    overflow-x: scroll;
+}
+
+.propiedades::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.propiedad-card{
+    margin: 1% 2% 1% 2% ;
+    text-decoration: none;
+    box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+    border-radius: 20px;
 }
 
 
+.propiedad-card:visited{
+    color:black
+}
 
-.sidebar-container{
-    background-color: "#49B1FC";
+.propiedad-card img{
+    border-radius: 20px 20px 0 0;
+}
+
+.propiedad-texto{
+    padding: 5%;
+    max-width: 280px;
+}
+
+table{
+    width: 90%;
+}
+
+.tabla{
+    margin-top: 5%;
+}
+
+.tabla2{
+    width: 100%;
+}
+
+table td {
+	padding: 5px 0;
+}
+
+.td-link{
+    text-align: center;
+}
+
+table thead tr {
+    padding: 10px;
+	background-color: #49B1FC;
+	color: #ffffff;
+	font-weight: bold;
+	
+	border: 1px solid #54585d;
+}
+table thead tr th {
+    padding: 10px;
+    font-size: 16px;
+}
+
+table tbody td {
+	color: #636363;
+	border: 1px solid #dddfe1;
+    padding: 5px 10px;
+}
+table tbody tr {
+	background-color: #f9fafb;
+}
+table tbody tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+
+
+.chats{
+    height: 100vh;
+    overflow-y: scroll;
+    padding: 5%;
+    margin-left: -20%;
+    box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+    background-color: white;
+    
+}
+
+.chats::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.chat{
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px;
+    transition: all 0.2s;
+    border-radius: 10px;
+}
+
+.chat:hover{
+    background-color: #CCD1D2;
+    cursor: pointer;
+}
+
+.chat img{
+    border-radius: 100px;
+}
+
+.chat-texto{
+    width: 80%;
+}
+
+.chat-hora{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.chat-mensajes{
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    justify-content: space-between;
+}
+
+.chat-userInfo{
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    box-shadow: 5px 5px 5px rgba(0,0,0, 0.2);
+    background-color: #CCD1D2;
+}
+
+.chat-allMessages{
+    padding: 10px;
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.mensaje-otroUsuario{
+    width: 100%;
+}
+
+.mensaje-otroUsuario p, .mensaje-miUsuario p{
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    
+}
+
+.mensaje-otroUsuario p{
+    background-color: #CCD1D2;
+    border-radius: 10px 10px 10px 0;
+    margin-right:3rem;
+    margin-left: auto;
+}
+
+.mensaje-miUsuario p{
+    color: #fff;
+    background-color: #49B1FC;
+    border-radius: 10px 10px 0 10px;
+    float: right
+}
+
+.perfilInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

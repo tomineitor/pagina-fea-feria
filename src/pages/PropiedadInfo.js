@@ -2,6 +2,8 @@ import React from "react";
 //import {Link} from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import Chart from "react-apexcharts";
+import Layout from "./Layout";
+import '../styles/sidebar.css'
 
 
 
@@ -16,69 +18,105 @@ const PropiedadInfo = () => {
         propiedad.visita= [];
       }
 
+    console.log("Formato timestamp", propiedad.visita)
+
 
     // Con esto obtengo cuantas veces aparece cada fecha
     let fechas = propiedad.visita.reduce(function(result, current) {
-        let currentDate = current.fecha
-        console.log(currentDate)
-        if (!result[currentDate]) {
-            result[currentDate] = 0;
+        let currentDate = new Date(current.fecha.seconds * 1000 + current.fecha.nanoseconds/1000000)
+        const aux = currentDate.toLocaleDateString()
+        if (!result[aux]) {
+            result[aux] = 0;
         }
-        result[currentDate]++;
+        result[aux]++;
         return result;
     }, {});
 
+    console.log(fechas)
 
-    /*
-    // Con esto ordeno las fechas
-    const orderedDates = {};
-    Object.keys(fechas).sort(function(a, b) {
-        return a.split('/').reverse().join('').localeCompare(b.split('/').reverse().join(''));
-    }).forEach(function(key) {
-        orderedDates[key] = fechas[key];
-    })
+    const imagenesPropiedad = propiedad.fotos.map((d) => (
+        <div className="imagen-card">
+            <img src={d} alt="house-photo" width="300" height="350" />
+        </div>
+    ));
 
-    // Con esto lo transformo al formato de lineData
+
+
     let lineData = [];
-    Object.entries(orderedDates).forEach( item => lineData.push({ label: item[0], value: item[1]}));
+    Object.entries(fechas).forEach( item => lineData.push({ x: item[0], y: item[1]}));
 
-    */
 
 
     const grafico = {
         options: {
             chart: {
                 id: "line"
-            },
-            xaxis: {
-                type: 'category'
             }
         },
         series: [{
             name: "Visitas",
-            data: [{x: 'luneh', y: 10}, {x: 'marteh', y: 20}]
+            data: lineData
         }]
       };
 
     return (
-        <div>
-            <h1>Aqui habran stats de la propiedad</h1>
-            <h2>Titulo: {propiedad.titulo}</h2>
-            <h2>Precio: {propiedad.precio}</h2>
-            <h2>Comuna: {propiedad.comuna}</h2>
-            <h2>Direccion: {propiedad.direccion}</h2>
-            <h2>Descripcion: {propiedad.descripcion}</h2>
-            <h3>Numero de Habitaciones: {propiedad.habitaciones}</h3>
-            <h3>Numero de Banos: {propiedad.banos}</h3>
-            <h3>Metros cuadrados: {propiedad.superficie}</h3>
+        <div className="container">
+
+        <div className="sidebar">
+        <Layout></Layout>
+        </div>
+
+        <div className="page" style={{marginTop: 40}}>
             <div>
-                <Chart
-                    options={grafico.options}
-                    series={grafico.series}
-                    type="line"
-                    width="500"
-                />
+                <h1>{propiedad.titulo}</h1>
+                <h3>Descripción:</h3>
+                <p>{propiedad.descripcion}</p>
+
+                <h3 style={{marginTop: 20}}>Información de la propiedad</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Dirección</th>
+                      <th>Arriendo/Venta</th>
+                      <th>Precio</th>
+                      <th>Número de Habitaciones</th>
+                      <th>Número de baños</th>
+                      <th>Superficie </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        <td>{propiedad.direccion}</td>
+                        <td className="td-link">{propiedad.tipoVenta}</td>
+                        <td className="td-link">{propiedad.precio} {propiedad.tipoVenta == 'Arriendo' ? 'CLP' : 'UF'} </td>
+                        <td className="td-link">{propiedad.habitaciones}</td>
+                        <td className="td-link">{propiedad.banos}</td>
+                        <td className="td-link">{propiedad.superficie} m<sup>2</sup></td>
+                    </tr>
+                  </tbody>
+                  
+                </table>
+
+                <h3 style={{marginTop: 20}}>Imágenes de la propiedad</h3>
+                <div className="propiedades">
+                    {imagenesPropiedad}
+                </div>
+
+                
+                
+                <div style={{marginTop: 20}}>
+                    <h3>Visitas por dia</h3>
+                    <Chart
+                        options={grafico.options}
+                        series={grafico.series}
+                        type="line"
+                        width="1500"
+                        height="700"
+                    />
+                </div>
             </div>
+        </div>
+
         </div>
         
     )

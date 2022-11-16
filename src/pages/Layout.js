@@ -1,22 +1,40 @@
-import { Outlet, Link } from "react-router-dom";
-import styles from '../styles/sidebar.css'
+import { Link } from "react-router-dom";
+import '../styles/sidebar.css'
+import { IoChevronForwardOutline, IoLogOutOutline } from "react-icons/io5";
+
 
 const Layout = () => {
   return (
-    <div className="sidebar-container">
-        <a>
-            <Link to="/home" state= {"O3X3U5oJYEYtihwmdlLSF1bPa6J2"}>Home</Link>
-        </a>
-        <a>
-            <Link to="/noticias">Noticias</Link>
-        </a>
-        <a>
-            <Link to="/contact">Contact</Link>
-        </a>
-        <a>
-            <Link to="/">LOGIN</Link>
-        </a>
-      <Outlet />
+    <div>
+        <div style={{overflow: "hidden", alignItems: "center"}}>
+          <div style={{marginTop: 40}}>
+              <Link to="/home" state= {"AnwUlmqaJBzWtLaoT3Z6"}><img src={require('../images/Icono.png')} alt="profilepic" width="120" height="125"/></Link>
+          </div>
+
+          
+          <div style={{marginTop: 40, display: "flex", flexDirection: "row", alignItems: "center"}}>
+              <Link to="/home" state= {"AnwUlmqaJBzWtLaoT3Z6"}> Inicio</Link>
+              <IoChevronForwardOutline color="white" size={20}/>
+          </div>
+          <div style={{marginTop: 10, display: "flex", flexDirection: "row", alignItems: "center"}}>
+              <Link to="/chat" state= {"AnwUlmqaJBzWtLaoT3Z6"} >Chat</Link>
+              <IoChevronForwardOutline color="white" size={20}/>
+          </div>
+          <div style={{marginTop: 10, display: "flex", flexDirection: "row", alignItems: "center"}}>
+              <Link to="/noticias">Noticias</Link>
+              <IoChevronForwardOutline color="white" size={20}/>
+          </div>
+          <div style={{marginTop: 10, display: "flex", flexDirection: "row", alignItems: "center"}}>
+              <Link to="/perfil" state= {"AnwUlmqaJBzWtLaoT3Z6"}>Perfil</Link>
+              <IoChevronForwardOutline color="white" size={20}/>
+          </div>
+          <div style={{marginTop: 525, display: "flex", flexDirection: "row", alignItems: "center"}}>
+            
+            <Link to="/"> Cerrar Sesión</Link>
+            <IoLogOutOutline color="white" size={20}/>
+          </div>
+        </div>
+      
     </div>
   )
 };

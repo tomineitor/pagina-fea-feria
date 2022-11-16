@@ -1,21 +1,21 @@
 import { Outlet, Link } from "react-router-dom";
+import styles from '../styles/sidebar.css'
 
 const Layout = () => {
   return (
-    <div>
-        <h4>super navbar 2.0</h4>
-        <li>
+    <div className="sidebar-container">
+        <a>
             <Link to="/home" state= {"O3X3U5oJYEYtihwmdlLSF1bPa6J2"}>Home</Link>
-        </li>
-        <li>
+        </a>
+        <a>
             <Link to="/noticias">Noticias</Link>
-        </li>
-        <li>
+        </a>
+        <a>
             <Link to="/contact">Contact</Link>
-        </li>
-        <li>
+        </a>
+        <a>
             <Link to="/">LOGIN</Link>
-        </li>
+        </a>
       <Outlet />
     </div>
   )

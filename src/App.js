@@ -9,6 +9,8 @@ import NoPage from "./pages/NoPage";
 import Home from "./pages/Home";
 import PropiedadInfo from "./pages/PropiedadInfo"
 
+import styles from '../styles/sidebar.css'
+
 function App() {
 
   return (

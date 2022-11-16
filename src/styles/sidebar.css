@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+
+
+.sidebar-container{
+    background-color: "#49B1FC";
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

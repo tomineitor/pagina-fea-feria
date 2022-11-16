@@ -16,62 +16,53 @@ const PropiedadInfo = () => {
         propiedad.visita= [];
       }
 
+    console.log("Formato timestamp", propiedad.visita)
+
 
     // Con esto obtengo cuantas veces aparece cada fecha
     let fechas = propiedad.visita.reduce(function(result, current) {
-        let currentDate = current.fecha
-        console.log(currentDate)
-        if (!result[currentDate]) {
-            result[currentDate] = 0;
+        let currentDate = new Date(current.fecha.seconds * 1000 + current.fecha.nanoseconds/1000000)
+        const aux = currentDate.toLocaleDateString()
+        if (!result[aux]) {
+            result[aux] = 0;
         }
-        result[currentDate]++;
+        result[aux]++;
         return result;
     }, {});
 
+    console.log(fechas)
 
-    /*
-    // Con esto ordeno las fechas
-    const orderedDates = {};
-    Object.keys(fechas).sort(function(a, b) {
-        return a.split('/').reverse().join('').localeCompare(b.split('/').reverse().join(''));
-    }).forEach(function(key) {
-        orderedDates[key] = fechas[key];
-    })
 
-    // Con esto lo transformo al formato de lineData
     let lineData = [];
-    Object.entries(orderedDates).forEach( item => lineData.push({ label: item[0], value: item[1]}));
+    Object.entries(fechas).forEach( item => lineData.push({ x: item[0], y: item[1]}));
 
-    */
 
 
     const grafico = {
         options: {
             chart: {
                 id: "line"
-            },
-            xaxis: {
-                type: 'category'
             }
         },
         series: [{
             name: "Visitas",
-            data: [{x: 'luneh', y: 10}, {x: 'marteh', y: 20}]
+            data: lineData
         }]
       };
 
     return (
         <div>
             <h1>Aqui habran stats de la propiedad</h1>
-            <h2>Titulo: {propiedad.titulo}</h2>
-            <h2>Precio: {propiedad.precio}</h2>
-            <h2>Comuna: {propiedad.comuna}</h2>
-            <h2>Direccion: {propiedad.direccion}</h2>
-            <h2>Descripcion: {propiedad.descripcion}</h2>
+            <h3>Titulo: {propiedad.titulo}</h3>
+            <h3>Precio: {propiedad.precio}</h3>
+            <h3>Comuna: {propiedad.comuna}</h3>
+            <h3>Direccion: {propiedad.direccion}</h3>
+            <h3>Descripcion: {propiedad.descripcion}</h3>
             <h3>Numero de Habitaciones: {propiedad.habitaciones}</h3>
             <h3>Numero de Banos: {propiedad.banos}</h3>
             <h3>Metros cuadrados: {propiedad.superficie}</h3>
             <div>
+                <h2>Visitas por dia</h2>
                 <Chart
                     options={grafico.options}
                     series={grafico.series}

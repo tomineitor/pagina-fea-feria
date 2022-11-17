@@ -82,7 +82,7 @@ const Home = () => {
         }
         
         return () => {
-          console.log("uwu");
+          console.log("uwu de Home");
           console.log( news );
         };
     }, [usuario_firebase]);

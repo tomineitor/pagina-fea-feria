@@ -40,12 +40,8 @@ const PropiedadInfo = () => {
         </div>
     ));
 
-
-
     let lineData = [];
     Object.entries(fechas).forEach( item => lineData.push({ x: item[0], y: item[1]}));
-
-
 
     const grafico = {
         options: {
@@ -57,7 +53,7 @@ const PropiedadInfo = () => {
             name: "Visitas",
             data: lineData
         }]
-      };
+    };
 
     return (
         <div className="container">

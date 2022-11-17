@@ -68,7 +68,7 @@ const Login = () => {
 
                 <div>
                     <h1>Log-in</h1>
-                    <h2>Se ha generado un codigo de acceso. </h2>
+                    <h2>Para ingresar necesita un codigo de acceso. </h2>
                     <h2>Porfavor revise su aplicacion</h2>
                     <form onSubmit={handleSubmit}>
                         <label>Ingrese el codigo:

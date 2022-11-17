@@ -215,7 +215,7 @@ const Perfil = () => {
 
           {showGrafico && 
            <div style={{marginTop: 20}}>
-            <h3>Visitas por dia</h3>
+            <h3>Visitas por dia de tu perfil</h3>
             <Chart
               options={graficoV.options}
               series={graficoV.series}

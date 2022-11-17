@@ -23,18 +23,17 @@ const Home = () => {
     const [props, setProps] = useState([]);
 
     const location = useLocation();
-    const usuario_firebase = location.state
+    const usuario_firebase = (localStorage.getItem('userId'));
 
     const getNews = async () => {
       const response = await fetch(
         'https://news-scraping-api-tunuevohogar.herokuapp.com/news',
         {
           method: 'GET',
-          mode: 'no-cors',
         }
         );
       const data = await response.json(); 
-      console.log(data.data)
+      // console.log(data.data)
       setNews(data.data);
     }
 
@@ -77,17 +76,20 @@ const Home = () => {
     useEffect(() => {
         getUserInfo();
         getMyProperties();
-        getNews();
         return () => {
           console.log("uwu");
           console.log( news );
         };
     }, []);
 
+    const openInNewTab = url => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
 
     const listItems = props.map((d) => (
             <Link to="/propiedadInfo" state= {d.data()} className='propiedad-card'>
-              <img src={d.data().fotos[0]} alt="house-photo" width="280" height="300"/>
+              <img src={d.data().fotos[0]} alt="house-photo" width="340" height="300"/>
               <div className='propiedad-texto'>
                 <h4>{d.data().titulo}</h4>
                 <p>{d.data().descripcion}</p>
@@ -109,17 +111,15 @@ const Home = () => {
   
       ));
 
-    // const listNews = news.map((noticia) => (
-    //   <Link to={noticia.url} state= {d.data()} className='propiedad-card'>
-    //     <img src={d.data().fotos[0]} alt="house-photo" width="280" height="300"/>
-    //     <div className='propiedad-texto'>
-    //       <h4>{d.data().titulo}"</h4>
-    //       <p>{d.data().descripcion}</p>
-    //       <p>Precio: {d.data().precio} {d.data().tipoVenta == 'Arriendo' ? 'CLP' : 'UF'} </p>
-    //     </div>
-        
-    //   </Link>
-    // ));
+    const listNews = news.map((noticia) => (
+      <Link className='propiedad-card' onClick={() => openInNewTab(noticia.url)}>
+        <img src={noticia.url_image} alt="house-photo" width="340" height="300"/>
+        <div className='propiedad-texto'>
+          <h4>{noticia.news_title}</h4>
+          <p>{noticia.news_datetime_release}</p>
+        </div>
+      </Link>
+    ));
 
 
     return (
@@ -137,6 +137,8 @@ const Home = () => {
                     {listItems}
                   </div>
               </div>
+
+
               <div className='tabla'>
                 <h2>Resumen de tus propiedades</h2>
                 <table>

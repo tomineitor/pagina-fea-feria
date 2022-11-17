@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {Link} from 'react-router-dom';
-import styles from '../styles/login.css'
+import styles from '../styles/login.css';
+import { useLocation, useNavigate } from "react-router-dom";
 import { db, authentication } from '../database/firebase';
-import { doc, getDoc, setDoc, collection, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, updateDoc, query, where, getDocs } from "firebase/firestore";
 
 
-const Home = () => {
+const Login = () => {
 
     const randomString = (length, chars) => {
         var result = '';
@@ -14,31 +15,84 @@ const Home = () => {
     }
     
 
+    
+
+    const [codigo, setCodigo] = useState("");
+
+    const [userId, setUserID] = useState("");
+
+    const navigate = useNavigate();
+
+    
+    const location = useLocation();
+    const usuario_firebase = location.state
+
+
+    const login = async () => {
+    try {
+        const usersRef = collection(db, "Usuario");
+        const q = query(usersRef, where('webCode', "==", codigo));
+        const usersSnap = await getDocs(q);
+        {usersSnap.docs?.map((doc) => {
+            setUserID(doc.id); 
+            localStorage.setItem('userId', doc.id);
+        })};
+        return true
+        } catch (error) {
+        console.log(error);
+        }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if(login()){
+            
+            navigate('/home', {state: userId});
+
+        } else{
+            alert('Codigo incorrecto')
+        }
+    }
+
     const generateCode = () =>{
-        var WebCode = randomString(12, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        var WebCode = randomString(6, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
         console.log("Se genero el codigo")
-        updateDoc(doc(db, "Usuario", "O3X3U5oJYEYtihwmdlLSF1bPa6J2"), {
+        updateDoc(doc(db, "Usuario", userId), {
             webCode: WebCode
           });
     }
 
+
     return (
         <div>
-        <div className="page-content">
-          
-        </div>
-        <div className="login-info">
-              <h1 className="login-titulo">Inicio de sesion de TuNuevoHogar</h1>
-              <Link to="/login">
-                  <a className="login-button" >Login</a>
-              </Link>
-              <Link to="/home" state= {"O3X3U5oJYEYtihwmdlLSF1bPa6J2"}>
-                  <a className="login-button" >Logueo Mágico hardcodeado</a>
-              </Link>
-        </div>
-    </div>  
+            <div className="page-content">
+            
+            </div>
+            <div className="login-info">
+
+                <div>
+                    <h1>Log-in</h1>
+                    <h2>Se ha generado un codigo de acceso. </h2>
+                    <h2>Porfavor revise su aplicacion</h2>
+                    <form onSubmit={handleSubmit}>
+                        <label>Ingrese el codigo:
+                            <input 
+                            type="text" 
+                            value={codigo}
+                            onChange={(e) => setCodigo(e.target.value)}
+                            />
+                        </label>
+                        <input type="submit" />
+                    </form>
+                </div>
+
+            </div>
+
+            
+
+        </div>  
         
     )
   };
   
-  export default Home;
+  export default Login;

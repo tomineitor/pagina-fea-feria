@@ -34,57 +34,61 @@ const Chat = () => {
             console.log('Chat ', chat)
             const chatRef = doc(db, "Chats", chat);
             const chatSnap = await getDoc(chatRef);
-            const docRef = doc(db, 'Usuario', chat.split('-')[1]);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists() && chatSnap.exists() && (chatSnap.data().idPropietario == user_id || chat.split('-')[1] == user_id)) {
-            const docRef2 = doc(db, 'Usuario', chatSnap.data().idPropietario);
-            const docSnap2 = await getDoc(docRef2);
-            const propRef = doc(db, "Propiedad", chat.split('-')[0]);
-            const propSnap = await getDoc(propRef);
-            console.log(propSnap.data())
-            if(propSnap.exists()){
-                return {key: chat,
-                        idPropiedad: chat.split('-')[0],
-                        idUser: chat.split('-')[1],
-                        nombre: docSnap.data().nombre,      //Nombre del usuario
-                        fotoURL: docSnap.data().fotoURL,    //Foto del usuario
-                        lastMensaje: chatSnap.data().ultimoMensajeDate.toDate().getHours() +":" +  chatSnap.data().ultimoMensajeDate.toDate().getMinutes(),
-                        esLeido: chatSnap.data().esLeido,
-                        idPropietario: chatSnap.data().idPropietario,
-                        nombreProp: docSnap2.data().nombre,
-                        fotoURLProp: docSnap2.data().fotoURL,
-                        direccion: propSnap.data().direccion,
-                        titulo: propSnap.data().titulo,
+            if(chat.split('-')[1] !== undefined){
+                const docRef = doc(db, 'Usuario', chat.split('-')[1]);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists() && chatSnap.exists() && (chatSnap.data().idPropietario == user_id || chat.split('-')[1] == user_id)) {
+                    const docRef2 = doc(db, 'Usuario', chatSnap.data().idPropietario);
+                    const docSnap2 = await getDoc(docRef2);
+                    const propRef = doc(db, "Propiedad", chat.split('-')[0]);
+                    const propSnap = await getDoc(propRef);
+                    console.log(propSnap.data())
+                    if(propSnap.exists()){
+                        return {key: chat,
+                            idPropiedad: chat.split('-')[0],
+                            idUser: chat.split('-')[1],
+                            nombre: docSnap.data().nombre,      //Nombre del usuario
+                            fotoURL: docSnap.data().fotoURL,    //Foto del usuario
+                            lastMensaje: chatSnap.data().ultimoMensajeDate.toDate().getHours() +":" +  chatSnap.data().ultimoMensajeDate.toDate().getMinutes(),
+                            esLeido: chatSnap.data().esLeido,
+                            idPropietario: chatSnap.data().idPropietario,
+                            nombreProp: docSnap2.data().nombre,
+                            fotoURLProp: docSnap2.data().fotoURL,
+                            direccion: propSnap.data().direccion,
+                            titulo: propSnap.data().titulo,
                         }
-                } else{
-                const thisUserID = chat.split('-')[0] == user_id ? chat.split('-')[1] : chat.split('-')[0];
-                const otherUserID = chat.split('-')[0];
-                const tinderRef = doc(db, 'Usuario', thisUserID);
-                const tinderSnap = await getDoc(tinderRef);
-                return {key: chat,
-                    idPropiedad: chat.split('-')[0],
-                    idUser: chat.split('-')[1],
-                    nombre: tinderSnap.data().nombre,      //Nombre del usuario
-                    fotoURL: tinderSnap.data().fotoURL,    //Foto del usuario
-                    lastMensaje: chatSnap.data().ultimoMensajeDate.toDate().getHours() +":" +  chatSnap.data().ultimoMensajeDate.toDate().getMinutes(),
-                    esLeido: chatSnap.data().esLeido,
-                    idPropietario: chatSnap.data().idPropietario,
-                    nombreProp: tinderSnap.data().nombre,
-                    fotoURLProp: '',
-                    direccion: '',
-                    titulo: 'Busca compañero de cuarto.',
+                    } else{
+                        const thisUserID = chat.split('-')[0] == user_id ? chat.split('-')[1] : chat.split('-')[0];
+                        const otherUserID = chat.split('-')[0];
+                        const tinderRef = doc(db, 'Usuario', thisUserID);
+                        const tinderSnap = await getDoc(tinderRef);
+                        return {key: chat,
+                            idPropiedad: chat.split('-')[0],
+                            idUser: chat.split('-')[1],
+                            nombre: tinderSnap.data().nombre,      //Nombre del usuario
+                            fotoURL: tinderSnap.data().fotoURL,    //Foto del usuario
+                            lastMensaje: chatSnap.data().ultimoMensajeDate.toDate().getHours() +":" +  chatSnap.data().ultimoMensajeDate.toDate().getMinutes(),
+                            esLeido: chatSnap.data().esLeido,
+                            idPropietario: chatSnap.data().idPropietario,
+                            nombreProp: tinderSnap.data().nombre,
+                            fotoURLProp: '',
+                            direccion: '',
+                            titulo: 'Busca compañero de cuarto.',
+                        }
+                }
                 }
             }
-            }
             
-        }));
-        const auxChats = infoUsuarios.filter(item => item != undefined)
-        console.log(auxChats)
-        setChats(auxChats);
-        } catch(error){
-        console.log(error);
-        }
-    };
+            }));
+            const auxChats = infoUsuarios.filter(item => item != undefined)
+            console.log(auxChats)
+            setChats(auxChats);
+            } catch(error){
+            console.log(error);
+            }
+        };
+
+        
 
     useEffect(() => {
         obtenerChats()

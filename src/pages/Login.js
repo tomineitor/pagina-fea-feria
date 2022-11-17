@@ -13,9 +13,6 @@ const Login = () => {
         for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
         return result;
     }
-    
-
-    
 
     const [codigo, setCodigo] = useState("");
 
@@ -45,14 +42,13 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if(login()){
-            
-            navigate('/home', {state: userId});
-
-        } else{
-            alert('Codigo incorrecto')
-        }
+        login();
+        setTimeout(() => {
+            navigate('/home');
+          }, 3000);
+        
     }
+
 
     const generateCode = () =>{
         var WebCode = randomString(6, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')

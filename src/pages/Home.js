@@ -20,10 +20,10 @@ const Home = () => {
     const [news, setNews] = useState([]);
 
 
-    const [props, setProps] = useState([]);
 
-    const location = useLocation();
-    const usuario_firebase = (localStorage.getItem('userId'));
+    const [props, setProps] = useState([]);
+    const [usuario_firebase, setUserID] = useState(null);
+    
 
     const getNews = async () => {
       const response = await fetch(
@@ -40,6 +40,7 @@ const Home = () => {
 
     const getUserInfo = async () => {
         try {
+          console.log(usuario_firebase)
           const partRef = doc(db, "Usuario", usuario_firebase);
           const partSnap = await getDoc(partRef);
           const name = partSnap.data().nombre;
@@ -74,13 +75,18 @@ const Home = () => {
       };
 
     useEffect(() => {
-        getUserInfo();
-        getMyProperties();
+        setUserID(localStorage.getItem('userId'))
+        if(usuario_firebase){
+          getUserInfo();
+          getMyProperties();
+        }
+        
         return () => {
           console.log("uwu");
           console.log( news );
         };
-    }, []);
+    }, [usuario_firebase]);
+
 
     const openInNewTab = url => {
       window.open(url, '_blank', 'noopener,noreferrer');
